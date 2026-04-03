@@ -3,6 +3,10 @@ import pymongo
 
 app = Flask(__name__)
 
+@app.route('/', methods=['GET'])
+def index():
+    return jsonify({"message": "A API Flask está rodando!", "status": "Tudo está funcionando corretamente na porta 5000", "endpoints": ["/projects"]})
+
 projects = []
 
 @app.route('/projects', methods=['GET'])
