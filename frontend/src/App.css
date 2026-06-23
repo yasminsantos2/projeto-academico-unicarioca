@@ -1,0 +1,255 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f1f5f9;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #1e293b;
+}
+
+.app {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+}
+
+.cabecalho {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.cabecalho h1 {
+  margin: 0;
+  color: #0f766e;
+  font-size: 32px;
+}
+
+.cabecalho p {
+  margin: 4px 0 0;
+  color: #64748b;
+}
+
+/* Menu de navegacao */
+.menu {
+  display: flex;
+  gap: 8px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.menu button {
+  cursor: pointer;
+  border: none;
+  background: #ecfeff;
+  color: #0f766e;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.menu button:hover {
+  background: #cffafe;
+}
+
+/* Resumo / alertas */
+.resumo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border-left: 6px solid #cbd5e1;
+}
+
+.card-valor {
+  display: block;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.card-rotulo {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.card-total { border-left-color: #0ea5e9; }
+.card-alerta { border-left-color: #f59e0b; }
+.card-esgotado { border-left-color: #ef4444; }
+
+/* Paineis */
+.painel,
+.lista,
+.filtros {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.painel h2,
+.lista h2 {
+  margin-top: 0;
+  color: #0f766e;
+}
+
+/* Formulario */
+.formulario {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+}
+
+.campo-largo {
+  grid-column: span 3;
+}
+
+.campo label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #475569;
+}
+
+.campo input,
+.campo select,
+.filtros input,
+.filtros select {
+  padding: 9px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.acoes-form {
+  grid-column: span 3;
+  display: flex;
+  gap: 12px;
+}
+
+/* Botoes */
+.btn {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-primario { background: #0f766e; color: #fff; }
+.btn-secundario { background: #e2e8f0; color: #1e293b; }
+.btn-editar { background: #0ea5e9; color: #fff; margin-right: 6px; padding: 6px 12px; }
+.btn-excluir { background: #ef4444; color: #fff; padding: 6px 12px; }
+
+.btn-mini {
+  width: 26px;
+  height: 26px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+/* Filtros */
+.filtros {
+  display: flex;
+  gap: 12px;
+}
+
+.filtros input {
+  flex: 1;
+}
+
+/* Erros */
+.erros {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  border-radius: 8px;
+  padding: 10px 16px 10px 32px;
+  margin: 0 0 16px;
+}
+
+/* Tabela */
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabela th,
+.tabela td {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 14px;
+}
+
+.tabela th {
+  color: #64748b;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.sub {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.ajuste {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.linha-baixo { background: #fffbeb; }
+.linha-esgotado { background: #fef2f2; }
+
+/* Badges de situacao */
+.badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badge-ok { background: #dcfce7; color: #166534; }
+.badge-baixo { background: #fef3c7; color: #92400e; }
+.badge-esgotado { background: #fee2e2; color: #991b1b; }
+
+.vazio {
+  color: #94a3b8;
+  text-align: center;
+  padding: 20px;
+}
+
+@media (max-width: 720px) {
+  .resumo,
+  .formulario {
+    grid-template-columns: 1fr;
+  }
+  .campo-largo,
+  .acoes-form {
+    grid-column: span 1;
+  }
+}
