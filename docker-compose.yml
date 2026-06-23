@@ -5,6 +5,8 @@ services:
     build: ./backend
     ports:
       - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/
     depends_on:
       - mongo
 
@@ -25,6 +27,18 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+
+  mongo-express:
+    container_name: unicarioca_mongo_express
+    image: mongo-express:latest
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_URL=mongodb://mongo:27017/
+      - ME_CONFIG_BASICAUTH=false
+    depends_on:
+      - mongo
 
 volumes:
   mongo-data:
