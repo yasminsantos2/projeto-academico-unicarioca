@@ -1,33 +1,55 @@
-import os
-from flask import Flask, jsonify, request
-import pymongo
+"""Composition root da API de Controle de Estoque.
 
-app = Flask(__name__)
+Aqui as dependencias sao montadas e injetadas em ordem:
+    db -> ProdutoRepository -> ProdutoService -> ProdutoController (Blueprint)
+Os erros de negocio do service sao traduzidos para status HTTP.
+"""
+
+import os
+
+from flask import Flask, jsonify
+from flask_cors import CORS
+from pymongo import MongoClient
+
+from controllers.produto_controller import criar_produto_controller
+from repositories.produto_repository import ProdutoRepository
+from services.exceptions import ProdutoNaoEncontrado, ValidacaoError
+from services.produto_service import ProdutoService
 
 MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://mongo:27017/')
-client = pymongo.MongoClient(MONGO_URI)
-db = client['unicarioca']
-projects_collection = db['projects']
+MONGO_DB = os.environ.get('MONGO_DB', 'unicarioca')
 
-@app.route('/', methods=['GET'])
-def index():
-    return jsonify({"message": "A API Flask está rodando!", "status": "Tudo está funcionando corretamente na porta 5000", "endpoints": ["/projects"]})
 
-@app.route('/projects', methods=['GET'])
-def get_projects():
-    projects = list(projects_collection.find({}, {'_id': 0}))
-    return jsonify(projects)
+def criar_app() -> Flask:
+    app = Flask(__name__)
+    CORS(app)
 
-@app.route('/projects', methods=['POST'])
-def add_project():
-    data = request.get_json() or {}
-    project = {
-        'id': projects_collection.count_documents({}) + 1,
-        'name': data.get('name', 'Novo Projeto')
-    }
-    projects_collection.insert_one(project)
-    project.pop('_id', None)
-    return jsonify(project), 201
+    db = MongoClient(MONGO_URI)[MONGO_DB]
+
+    repository = ProdutoRepository(db)
+    service = ProdutoService(repository)
+    app.register_blueprint(criar_produto_controller(service))
+
+    @app.route('/', methods=['GET'])
+    def index():
+        return jsonify({
+            'message': 'API de Controle de Estoque',
+            'status': 'ok',
+            'endpoints': ['/produtos'],
+        })
+
+    @app.errorhandler(ValidacaoError)
+    def _erro_validacao(err):
+        return jsonify({'erro': 'validacao', 'detalhes': err.erros}), 400
+
+    @app.errorhandler(ProdutoNaoEncontrado)
+    def _erro_nao_encontrado(err):
+        return jsonify({'erro': 'nao_encontrado', 'mensagem': str(err)}), 404
+
+    return app
+
+
+app = criar_app()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
